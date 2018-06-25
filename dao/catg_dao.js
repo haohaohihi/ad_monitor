@@ -18,7 +18,7 @@ catg_dao.query_first_catgs = function () {
 
 catg_dao.query_second_catgs = function (firstCATG) {
     return AdCategoryInfo.findAll({
-        attributes: ['firstCATG', 'secondCATG'],
+        attributes: ['secondCATG'],
         where: {
             'firstCATG': firstCATG
         }
@@ -27,7 +27,7 @@ catg_dao.query_second_catgs = function (firstCATG) {
 
 catg_dao.query_third_catgs = function (firstCATG, secondCATG) {
     return AdCategoryInfo.findAll({
-        attributes: ['firstCATG', 'secondCATG', 'thirdCATG'],
+        attributes: ['thirdCATG'],
         where: {
             'firstCATG': firstCATG,
             'secondCATG': secondCATG

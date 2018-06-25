@@ -66,4 +66,49 @@ catg_service.get_all_catgs = function () {
     });
 };
 
+catg_service.get_first_catgs = function () {
+    return catg_dao.query_first_catgs().then(tags => {
+        let result = [];
+        tags.forEach(tag => {
+            result.push(tag.firstCATG);
+        });
+        return result;
+    }).catch(err => {
+        return {
+            status: -200,
+            msg: "读取数据错误"
+        };
+    });
+};
+
+catg_service.get_second_catgs = function (first_tag) {
+    return catg_dao.query_second_catgs(first_tag).then(tags => {
+        let result = new Set();
+        tags.forEach(tag => {
+            result.add(tag.secondCATG);
+        });
+        return Array.from(result);
+    }).catch(err => {
+        return {
+            status: -200,
+            msg: "读取数据错误"
+        };
+    });
+};
+
+catg_service.get_third_catgs = function (first_tag, second_tag) {
+    return catg_dao.query_third_catgs(first_tag, second_tag).then(tags => {
+        let result = new Set();
+        tags.forEach(tag => {
+            result.add(tag.thirdCATG);
+        });
+        return Array.from(result);
+    }).catch(err => {
+        return {
+            status: -200,
+            msg: "读取数据错误"
+        };
+    });
+};
+
 module.exports = catg_service;
