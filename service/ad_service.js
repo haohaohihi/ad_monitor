@@ -1,4 +1,5 @@
 const ad_dao = require("../dao/ad_dao");
+const tag_dao = require("../dao/tag_dao");
 let ad_service = {};
 
 // 解析查询到的广告，并格式化返回
@@ -29,8 +30,8 @@ ad_service.get_ads = function (pageNum, pageSize, searchText) {
     let tagsDict = {};
     return Promise.all([
         ad_dao.query_ads(pageNum, pageSize, searchText),
-        ad_dao.get_ads_count(searchText),
-        ad_dao.query_all_tags(),
+        ad_dao.query_ads_count(searchText),
+        tag_dao.query_all_tags(),
     ])
         .then(values => {
             let ads = values[0], count = values[1], tags = values[2];
