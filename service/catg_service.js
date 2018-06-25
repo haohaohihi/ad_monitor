@@ -67,10 +67,10 @@ catg_service.get_all_catgs = function () {
 };
 
 catg_service.get_first_catgs = function () {
-    return catg_dao.query_first_catgs().then(tags => {
+    return catg_dao.query_first_catgs().then(catgs => {
         let result = [];
-        tags.forEach(tag => {
-            result.push(tag.firstCATG);
+        catgs.forEach(catg => {
+            result.push(catg.firstCATG);
         });
         return result;
     }).catch(err => {
@@ -81,11 +81,11 @@ catg_service.get_first_catgs = function () {
     });
 };
 
-catg_service.get_second_catgs = function (first_tag) {
-    return catg_dao.query_second_catgs(first_tag).then(tags => {
+catg_service.get_second_catgs = function (first_catg) {
+    return catg_dao.query_second_catgs(first_catg).then(catgs => {
         let result = new Set();
-        tags.forEach(tag => {
-            result.add(tag.secondCATG);
+        catgs.forEach(catg => {
+            result.add(catg.secondCATG);
         });
         return Array.from(result);
     }).catch(err => {
@@ -96,11 +96,11 @@ catg_service.get_second_catgs = function (first_tag) {
     });
 };
 
-catg_service.get_third_catgs = function (first_tag, second_tag) {
-    return catg_dao.query_third_catgs(first_tag, second_tag).then(tags => {
+catg_service.get_third_catgs = function (first_catg, second_catg) {
+    return catg_dao.query_third_catgs(first_catg, second_catg).then(catgs => {
         let result = new Set();
-        tags.forEach(tag => {
-            result.add(tag.thirdCATG);
+        catgs.forEach(catg => {
+            result.add(catg.thirdCATG);
         });
         return Array.from(result);
     }).catch(err => {
@@ -108,6 +108,57 @@ catg_service.get_third_catgs = function (first_tag, second_tag) {
             status: -200,
             msg: "读取数据错误"
         };
+    });
+};
+
+catg_service.add_first_catg = function (first_catg) {
+    return catg_dao.query_catgs_count().then(count => {
+        return catg_dao.add_first_catg(count + 1, first_catg).then(catg => {
+            return {
+                "status": 0,
+                "msg": "success",
+                "id": catg.id
+            };
+        }).catch(err => {
+            return {
+                "status": -300,
+                "msg": "数据已存在",
+            }
+        });
+    });
+};
+
+catg_service.add_second_catg = function (first_catg, second_catg) {
+    return catg_dao.query_catgs_count().then(count => {
+        return catg_dao.add_second_catg(count + 1, first_catg, second_catg).then(catg => {
+            return {
+                "status": 0,
+                "msg": "success",
+                "id": catg.id
+            };
+        }).catch(err => {
+            return {
+                "status": -300,
+                "msg": "数据已存在",
+            }
+        });
+    });
+};
+
+catg_service.add_third_catg = function (first_catg, second_catg, third_catg) {
+    return catg_dao.query_catgs_count().then(count => {
+        return catg_dao.add_third_catg(count + 1, first_catg, second_catg, third_catg).then(catg => {
+            return {
+                "status": 0,
+                "msg": "success",
+                "id": catg.id
+            };
+        }).catch(err => {
+            return {
+                "status": -300,
+                "msg": "数据已存在",
+            }
+        });
     });
 };
 

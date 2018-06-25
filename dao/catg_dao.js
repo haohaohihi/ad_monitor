@@ -35,4 +35,36 @@ catg_dao.query_third_catgs = function (firstCATG, secondCATG) {
     });
 };
 
+catg_dao.query_catgs_count = function () {
+    return AdCategoryInfo.count();
+}
+
+catg_dao.add_first_catg = function (id, firstCATG) {
+    return AdCategoryInfo.create({
+        "id": id,
+        "firstCATG": firstCATG,
+        "secondCATG": "null",
+        "thirdCATG": "null"
+    });
+};
+
+catg_dao.add_second_catg = function (id, firstCATG, secondCATG) {
+    return AdCategoryInfo.create({
+        "id": id,
+        "firstCATG": firstCATG,
+        "secondCATG": secondCATG,
+        "thirdCATG": "null"
+    });
+};
+
+catg_dao.add_third_catg = function (id, firstCATG, secondCATG, thirdCATG) {
+    return AdCategoryInfo.create({
+        "id": id,
+        "firstCATG": firstCATG,
+        "secondCATG": secondCATG,
+        "thirdCATG": thirdCATG
+    });
+};
+
+
 module.exports = catg_dao;
