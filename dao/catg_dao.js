@@ -5,6 +5,10 @@ const AdCategoryInfo = require("../models/AdCategoryInfo.js");
 
 let catg_dao = {};
 
+catg_dao.query_one_tag = function (id) {
+    return AdCategoryInfo.findById(id);
+};
+
 catg_dao.query_all_catgs = function () {
     return AdCategoryInfo.findAll();
 };

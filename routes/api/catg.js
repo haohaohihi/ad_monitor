@@ -14,6 +14,13 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get(/^\/(\d+)$/, (req, res) => {
+    let id = parseInt(req.params[0], 10);
+    catg_service.get_one_tag(id).then(result => {
+        res.json(result);
+    });
+});
+
 router.get("/first", (req, res) => {
     catg_service.get_first_catgs().then(result => {
         res.json(result);

@@ -2,6 +2,19 @@ const catg_dao = require("../dao/catg_dao");
 
 let catg_service = {};
 
+catg_service.get_one_tag = function (id) {
+    return catg_dao.query_one_tag(id).then(catg => {
+        return {
+            "id": catg.id,
+            "first_catg": catg.firstCATG,
+            "second_catg": catg.secondCATG,
+            "third_catg": catg.thirdCATG
+        }
+    }).catch(err => {
+        return {};
+    });
+};
+
 catg_service.get_all_catgs = function () {
     let catgs_result = {};
     let first = new Set();
