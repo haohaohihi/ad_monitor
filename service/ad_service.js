@@ -1,24 +1,20 @@
 const ad_dao = require("../dao/ad_dao");
-const tag_dao = require("../dao/tag_dao");
+const catg_dao = require("../dao/catg_dao");
 let ad_service = {};
 
 // 解析查询到的广告，并格式化返回
-ad_service.parse_ads = function (ads, tagsDict) {
+ad_service.parse_ads = function (ads, catgs) {
     console.log("ads length: " + ads.length);
     let result = [];
     ads.forEach((ad) => {
-        let tags = [];
-        ad.tagIds.split(",").forEach(id => {
-            tags.push(tagsDict[id][0]);
-        });
         let oneAd = {
             "id": ad.id,
-            "fineClass": ad.fineClass,
+            "fineClass": catgs[ad.catgId],
             "lambdaFileAddr": ad.lambdaFile,
             "mainBrand": ad.mainBrand,
             "manufacturer": ad.manufacturer,
             "description": ad.proDescription,
-            "tags": tags
+            "tags": ad.tags.split(",")
         };
         result.push(oneAd);
     });
@@ -26,19 +22,20 @@ ad_service.parse_ads = function (ads, tagsDict) {
 };
 
 ad_service.get_ads = function (pageNum, pageSize, searchText) {
+    let catgs = {};
     let result = {};
-    let tagsDict = {};
-    return Promise.all([
-        ad_dao.query_ads(pageNum, pageSize, searchText),
-        ad_dao.query_ads_count(searchText),
-        tag_dao.query_all_tags(),
-    ])
-        .then(values => {
-            let ads = values[0], count = values[1], tags = values[2];
-            tags.forEach(tag => {
-                tagsDict[tag.id] = [tag.tagName, tag.freq]
+    return ad_dao.query_ads_count(searchText).then(count => {
+        console.log(count);
+        return Promise.all([
+            catg_dao.query_all_catgs(),
+            ad_dao.query_ads(pageNum, pageSize, searchText)
+        ]).then(values => {
+            let catgs_temp = values[0], ads = values[1];
+            catgs_temp.forEach(catg => {
+                catgs[catg.id] = [catg.firstCATG, catg.secondCATG, catg.thirdCATG]
             });
-            result.data = ad_service.parse_ads(ads, tagsDict);  // 解析从数据库中取到的ads并格式化
+            console.log(catgs);
+            result.data = ad_service.parse_ads(ads, catgs);
             result.total = Math.ceil(count / pageSize);     // 计算总页数
             result = ad_service.add2result(result);         // 加入rowNames字段
             if (result.total < pageNum) {
@@ -54,6 +51,7 @@ ad_service.get_ads = function (pageNum, pageSize, searchText) {
                 msg: "读取数据错误"
             };
         });
+    });
 };
 
 ad_service.add2result = function (result) {

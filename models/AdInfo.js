@@ -12,6 +12,10 @@ const AdInfo = sequelize.define('AdInfo', {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
+    agentId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
     lambdaFile: {
         type: Sequelize.STRING(2000)
     },
@@ -30,7 +34,7 @@ const AdInfo = sequelize.define('AdInfo', {
     proDescription: {
         type: Sequelize.STRING(100),
     },
-    tagIds: {
+    tags: {
         type: Sequelize.STRING(1000),
     },
 }, {
