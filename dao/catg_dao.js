@@ -35,9 +35,12 @@ catg_dao.query_third_catgs = function (firstCATG, secondCATG) {
     });
 };
 
-catg_dao.query_catgs_count = function () {
-    return AdCategoryInfo.count();
-}
+catg_dao.query_catgs_max_id = function () {
+    return AdCategoryInfo.max("id").then(res => {
+        console.log(res);
+        return res;
+    });
+};
 
 catg_dao.add_first_catg = function (id, firstCATG) {
     return AdCategoryInfo.create({
@@ -66,5 +69,22 @@ catg_dao.add_third_catg = function (id, firstCATG, secondCATG, thirdCATG) {
     });
 };
 
+catg_dao.update_catg = function (id, tagTitle, name) {
+    let params = {};
+    params[tagTitle] = name;
+    return AdCategoryInfo.update(params, {
+        where: {
+            "id": id
+        }
+    });
+};
+
+catg_dao.delete_catg = function (id) {
+    return AdCategoryInfo.destroy({
+        where: {
+            "id": id
+        }
+    });
+};
 
 module.exports = catg_dao;
