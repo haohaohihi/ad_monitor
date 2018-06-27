@@ -5,6 +5,10 @@ const AdInfo = require("../models/AdInfo.js");
 
 let ad_dao = {};
 
+ad_dao.query_ad_max_id = function () {
+    return AdInfo.max("id");
+};
+
 // 获取查询广告结果总数
 ad_dao.query_ads_count = function (searchText) {
     let query_params = {};
@@ -32,6 +36,39 @@ ad_dao.query_ads = function (pageNum, pageSize, searchText) {
         }
     }
     return AdInfo.findAll(query_params);
+};
+
+ad_dao.add_ad = function (id, catgId, agentId, lambdaFile, mainBrand,
+                          manufacturer, proDescription, verDescription, lang, tags) {
+    return AdInfo.create({
+        "id": id,
+        "catgId": catgId,
+        "agentId": agentId,
+        "lambdaFile": lambdaFile,
+        "verDescription": verDescription,
+        "mainBrand": mainBrand,
+        "manufacturer": manufacturer,
+        "lang": lang,
+        "proDescription": proDescription,
+        "tags": tags
+    });
+};
+
+ad_dao.update_ad = function (id, params) {
+    console.log(id);
+    return AdInfo.update(params, {
+        where: {
+            "id": id
+        }
+    });
+};
+
+ad_dao.delete_ad = function (id) {
+    return AdInfo.destroy({
+        where: {
+            "id": id
+        }
+    });
 };
 
 module.exports = ad_dao;

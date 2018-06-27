@@ -54,6 +54,95 @@ ad_service.get_ads = function (pageNum, pageSize, searchText) {
     });
 };
 
+ad_service.create_ad = function (catgId, agentId, lambdaFile, mainBrand,
+                                 manufacturer, proDescription, verDescription, lang, tags) {
+    tags = tags.substr(1, tags.length - 2);
+    return catg_dao.query_one_tag(catgId).then(res => {
+        if (!res) {
+            return {
+                "status": -201,
+                "msg": "传入的分类不存在"
+            };
+        } else {
+            return ad_dao.query_ad_max_id().then(count => {
+                return ad_dao.add_ad(count + 1, catgId, agentId, lambdaFile, mainBrand,
+                    manufacturer, proDescription, verDescription, lang, tags);
+            }).catch(err => {
+                return {
+                    "status": -300,
+                    "msg": "数据已存在",
+                }
+            });
+        }
+    });
+};
+
+ad_service.update_ad = function (id, req_data) {
+    params = {};
+    Object.keys(req_data).forEach(key => {
+        if ("lambdaFileAddr" == key) {
+            params["lambdaFile"] = req_data.lambdaFileAddr;
+        } else if ("description" == key) {
+            params["proDescription"] = req_data.description;
+        } else {
+            params[key] = req_data[key];
+        }
+    });
+    return ad_dao.update_ad(id, params).then(res => {
+        if (res == 1) {
+            return {
+                "id": id,
+                "status": 0,
+                "msg": "success",
+                "count": 1
+            }
+        } else {
+            return {
+                "id": id,
+                "status": 0,
+                "msg": "未更新数据"
+            }
+        }
+    }).catch(err => {
+        if ("Query was empty" == err.message) {
+            return {
+                status: -201,
+                msg: "待更新的广告不存在"
+            }
+        }
+        return {
+            "status": -301,
+            "msg": "更新数据失败",
+            "id": id
+        };
+    });
+};
+
+ad_service.delete_ad = function (id) {
+    return ad_dao.delete_ad(id).then(count => {
+        if (count == 1) {
+            return {
+                "status": 0,
+                "msg": "success",
+                "id": id,
+                "count": 1
+            }
+        } else {
+            return {
+                "status": 0,
+                "msg": "该条数据不存在",
+                "id": id
+            }
+        }
+    }).catch(err => {
+        return {
+            "status": -301,
+            "msg": "删除数据失败",
+            "id": id
+        }
+    });
+};
+
 ad_service.add2result = function (result) {
     result.rowNames = [
         {

@@ -40,10 +40,7 @@ catg_dao.query_third_catgs = function (firstCATG, secondCATG) {
 };
 
 catg_dao.query_catgs_max_id = function () {
-    return AdCategoryInfo.max("id").then(res => {
-        console.log(res);
-        return res;
-    });
+    return AdCategoryInfo.max("id");
 };
 
 catg_dao.add_first_catg = function (id, firstCATG) {
