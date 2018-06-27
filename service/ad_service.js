@@ -66,7 +66,13 @@ ad_service.create_ad = function (catgId, agentId, lambdaFile, mainBrand,
         } else {
             return ad_dao.query_ad_max_id().then(count => {
                 return ad_dao.add_ad(count + 1, catgId, agentId, lambdaFile, mainBrand,
-                    manufacturer, proDescription, verDescription, lang, tags);
+                    manufacturer, proDescription, verDescription, lang, tags).then(ad => {
+                    return {
+                        "status": 0,
+                        "msg": "succuss",
+                        "id": ad.id
+                    };
+                });
             }).catch(err => {
                 return {
                     "status": -300,
@@ -84,6 +90,8 @@ ad_service.update_ad = function (id, req_data) {
             params["lambdaFile"] = req_data.lambdaFileAddr;
         } else if ("description" == key) {
             params["proDescription"] = req_data.description;
+        } else if ("tags" == key) {
+            params["tags"] = req_data.tags.substr(1, req_data.tags.length - 2);
         } else {
             params[key] = req_data[key];
         }
