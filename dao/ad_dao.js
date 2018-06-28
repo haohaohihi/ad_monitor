@@ -55,7 +55,6 @@ ad_dao.add_ad = function (id, catgId, agentId, lambdaFile, mainBrand,
 };
 
 ad_dao.update_ad = function (id, params) {
-    console.log(id);
     return AdInfo.update(params, {
         where: {
             "id": id

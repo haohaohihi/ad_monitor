@@ -8,11 +8,7 @@ const ChannelInfo = sequelize.define('ChannelInfo', {
         autoIncrement: true,
         allowNull: false,
     },
-    channelName: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-    },
-    adminLevel: {
+    name: {
         type: Sequelize.STRING(100),
         allowNull: false,
     },
@@ -25,10 +21,6 @@ const ChannelInfo = sequelize.define('ChannelInfo', {
         allowNull: false,
     },
     city: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-    },
-    coverLevel: {
         type: Sequelize.STRING(100),
         allowNull: false,
     },
