@@ -44,17 +44,18 @@ router.put("/", (req, res) => {
 });
 
 router.delete("/", (req, res) => {
-    let ids = req.body.id;
+    let ids = req.body.ids;
     if (!ids || ids.length < 3) {
         res.json({
             "status": -100,
             "msg": "请求参数错误"
         });
+    } else {
+        ids = ids.substr(1, ids.length - 2).split(",");
+        channel_service.delete_channels(ids).then(result => {
+            res.json(result);
+        });
     }
-    ids = ids.substr(1, ids.length - 2).split(",");
-    channel_service.delete_channels(ids).then(result => {
-        res.json(result);
-    });
 });
 
 module.exports = router;

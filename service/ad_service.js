@@ -151,6 +151,32 @@ ad_service.delete_ad = function (id) {
     });
 };
 
+ad_service.delete_ads = function (ids) {
+    let promises = [];
+    let count = 0;
+    ids.forEach(id => {
+        promises.push(ad_dao.delete_ad(id).then(res => {
+            if (res === 1) {
+                return 1
+            }
+            return 0;
+        }).catch(err => {
+            return 0;
+        }));
+    });
+    return Promise.all(promises).then(values => {
+        values.forEach(val => {
+            count += val;
+        });
+    }).then(res => {
+        return {
+            "status": 0,
+            "msg": "成功删除",
+            "count": count
+        }
+    });
+};
+
 ad_service.add2result = function (result) {
     result.rowNames = [
         {

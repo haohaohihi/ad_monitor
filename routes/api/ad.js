@@ -64,17 +64,19 @@ router.post("/", function (req, res) {
 
 // 删除广告
 router.delete("/", function (req, res) {
-    let id = req.body.id;
-    if (id) {
-        ad_service.delete_ad(id).then(result => {
-            res.json(result);
-        })
-    } else {
+    let ids = req.body.ids;
+    if (!ids || ids.length < 3) {
         res.json({
-            status: -100,
-            msg: "请求参数错误"
+            "status": -100,
+            "msg": "请求参数错误"
+        });
+    } else {
+        ids = ids.substr(1, ids.length - 2).split(",");
+        ad_service.delete_ads(ids).then(result => {
+            res.json(result);
         });
     }
+
 });
 
 module.exports = router;
