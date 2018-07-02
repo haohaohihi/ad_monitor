@@ -68,9 +68,9 @@ ChannelAdCharge.create({
     "proAfter": "节目2",
     "startTime": "12:05:20",
     "endTime": "12:10:22",
-    "sOneCharge": 1000,
-    "sTwoCharege": 2000,
-    "sThreeCharge": 3000
+    "stage1": 1000,
+    "stage2": 2000,
+    "stage3": 3000
 }).then(charge => {
     console.log(charge.dataValues);
 }).catch(err => {
