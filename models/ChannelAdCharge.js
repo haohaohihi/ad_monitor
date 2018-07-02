@@ -10,11 +10,11 @@ const ChannelAdCharge = sequelize.define('ChannelAdCharge', {
     scopeId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true
     },
     weekDay: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        primaryKey: true
     },
     proBefore: {
         type: Sequelize.STRING(1000)
@@ -24,9 +24,13 @@ const ChannelAdCharge = sequelize.define('ChannelAdCharge', {
     },
     startTime: {
         type: Sequelize.TIME,
+        allowNull: false,
+        primaryKey: true
     },
     endTime: {
         type: Sequelize.TIME,
+        allowNull: false,
+        primaryKey: true
     },
     stage1: {
         type: Sequelize.INTEGER,

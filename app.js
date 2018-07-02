@@ -7,6 +7,7 @@ const logger = require('morgan');
 const apiAdRouter = require('./routes/api/ad');
 const apiCatgRouter = require('./routes/api/catg');
 const apiChannelRouter = require('./routes/api/channel');
+const apiChargeRouter = require('./routes/api/charge');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('/api/ad', apiAdRouter);
 app.use('/api/catg', apiCatgRouter);
 app.use('/api/channel', apiChannelRouter);
+app.use('/api/charge', apiChargeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
