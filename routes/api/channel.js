@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const channel_service = require("../../service/channel_service");
 
+// 获取频道记录
 router.get("/", (req, res) => {
     let pageNum = req.query.currentPageNum;
     let pageSize = req.query.pageSize;
@@ -21,6 +22,7 @@ router.get("/", (req, res) => {
     }
 });
 
+// 新增频道
 router.post("/", (req, res) => {
     console.log(req.body);
     channel_service.create_channel(req.body).then(result => {
@@ -28,6 +30,7 @@ router.post("/", (req, res) => {
     });
 });
 
+// 更新频道
 router.put("/", (req, res) => {
     let id = req.body.id;
     delete req.body.id;
@@ -43,6 +46,7 @@ router.put("/", (req, res) => {
     }
 });
 
+// 删除频道
 router.delete("/", (req, res) => {
     let ids = req.body.ids;
     if (!ids || ids.length < 3) {

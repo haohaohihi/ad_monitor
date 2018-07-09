@@ -5,6 +5,7 @@ const AdInfo = require("../models/AdInfo.js");
 
 let ad_dao = {};
 
+// 获取广告表中最大的id
 ad_dao.query_ad_max_id = function () {
     return AdInfo.max("id");
 };
@@ -38,6 +39,7 @@ ad_dao.query_ads = function (pageNum, pageSize, searchText) {
     return AdInfo.findAll(query_params);
 };
 
+// 增加一条广告记录
 ad_dao.add_ad = function (id, catgId, agentId, lambdaFile, mainBrand,
                           manufacturer, proDescription, verDescription, lang, tags) {
     return AdInfo.create({
@@ -54,6 +56,7 @@ ad_dao.add_ad = function (id, catgId, agentId, lambdaFile, mainBrand,
     });
 };
 
+// 更新指定id的广告记录
 ad_dao.update_ad = function (id, params) {
     return AdInfo.update(params, {
         where: {
@@ -62,6 +65,7 @@ ad_dao.update_ad = function (id, params) {
     });
 };
 
+// 删除指定id的广告
 ad_dao.delete_ad = function (id) {
     return AdInfo.destroy({
         where: {

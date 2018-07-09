@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const channelAdCharge_service = require("../../service/channelAdCharge_service");
 
+// 获取指定频道的收费信息
 router.get("/", (req, res) => {
     let channelId = req.query.channelId;
     if (!channelId) {
@@ -16,6 +17,7 @@ router.get("/", (req, res) => {
     }
 });
 
+// 新建频道收费信息
 router.post("/", (req, res) => {
     let channelId = req.body.channelId;
     delete req.body.channelId;
@@ -31,6 +33,7 @@ router.post("/", (req, res) => {
     }
 });
 
+// 更新频道收费信息
 router.put("/", (req, res) => {
     let channelId = req.body.channelId;
     let scopeId = req.body.scopeId;
@@ -48,6 +51,7 @@ router.put("/", (req, res) => {
     }
 });
 
+// 删除收费信息
 router.delete("/", (req, res) => {
     let channelId = req.body.channelId;
     let scopeIds = req.body.scopeIds;

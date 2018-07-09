@@ -8,15 +8,17 @@ const params_err_msg = {
     "msg": "请求参数错误"
 };
 
+// 获取所有分类
 router.get("/", (req, res) => {
     catg_service.get_all_catgs().then(result => {
         res.json(result);
     });
 });
 
+// 获取指定id的分类
 router.get(/^\/(\d+)$/, (req, res) => {
     let id = parseInt(req.params[0], 10);
-    catg_service.get_one_tag(id).then(result => {
+    catg_service.get_one_catg(id).then(result => {
         res.json(result);
     });
 });
@@ -48,6 +50,7 @@ router.get("/third", (req, res) => {
     });
 });
 
+// 新增分类
 router.post("/", (req, res) => {
     let first_catg = req.body.first_catg;
     let second_catg = req.body.second_catg;
@@ -75,6 +78,7 @@ router.post("/", (req, res) => {
     }
 });
 
+// 更新分类
 router.put("/", (req, res) => {
     let id = req.body.id;
     let level = req.body.level;
@@ -88,6 +92,7 @@ router.put("/", (req, res) => {
     }
 });
 
+// 删除分类
 router.delete("/", (req, res) => {
     let id = req.body.id;
     if (id) {

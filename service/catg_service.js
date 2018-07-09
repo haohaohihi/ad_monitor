@@ -2,7 +2,7 @@ const catg_dao = require("../dao/catg_dao");
 
 let catg_service = {};
 
-catg_service.get_one_tag = function (id) {
+catg_service.get_one_catg = function (id) {
     return catg_dao.query_one_tag(id).then(catg => {
         return {
             "id": catg.id,
@@ -15,6 +15,7 @@ catg_service.get_one_tag = function (id) {
     });
 };
 
+// 获取所有的分类信息
 catg_service.get_all_catgs = function () {
     let catgs_result = {};
     let first = new Set();

@@ -21,11 +21,11 @@ ad_service.parse_ads = function (ads, catgs) {
     return result;
 };
 
+// 获取广告信息,并分页返回
 ad_service.get_ads = function (pageNum, pageSize, searchText) {
     let catgs = {};
     let result = {};
     return ad_dao.query_ads_count(searchText).then(count => {
-        console.log(count);
         return Promise.all([
             catg_dao.query_all_catgs(),
             ad_dao.query_ads(pageNum, pageSize, searchText)
@@ -34,7 +34,6 @@ ad_service.get_ads = function (pageNum, pageSize, searchText) {
             catgs_temp.forEach(catg => {
                 catgs[catg.id] = [catg.firstCATG, catg.secondCATG, catg.thirdCATG]
             });
-            console.log(catgs);
             result.data = ad_service.parse_ads(ads, catgs);
             result.total = Math.ceil(count / pageSize);     // 计算总页数
             result = ad_service.add2result(result);         // 加入rowNames字段
